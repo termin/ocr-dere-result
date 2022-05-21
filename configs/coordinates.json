@@ -1,0 +1,92 @@
+[
+    {
+        "name": "lv",
+        "coordinate": {
+            "startx": 1005,
+            "starty": 340,
+            "endx": 1145,
+            "endy": 410
+        }
+    },
+    {
+        "name": "title",
+        "coordinate": {
+            "startx": 1035,
+            "starty": 345,
+            "endx": 1130,
+            "endy": 410
+        }
+    },
+    {
+        "name": "difficulty",
+        "coordinate": {
+            "startx": 463,
+            "starty": 348,
+            "endx": 653,
+            "endy": 410
+        }
+    },
+    {
+        "name": "perfect",
+        "coordinate": {
+            "startx": 935,
+            "starty": 595,
+            "endx": 1125,
+            "endy": 669
+        }
+    },
+    {
+        "name": "great",
+        "coordinate": {
+            "startx": 935,
+            "starty": 708,
+            "endx": 1125,
+            "endy": 774
+        }
+    },
+    {
+        "name": "nice",
+        "coordinate": {
+            "startx": 935,
+            "starty": 801,
+            "endx": 1125,
+            "endy": 872
+        }
+    },
+    {
+        "name": "bad",
+        "coordinate": {
+            "startx": 935,
+            "starty": 910,
+            "endx": 1125,
+            "endy": 977
+        }
+    },
+    {
+        "name": "miss",
+        "coordinate": {
+            "startx": 935,
+            "starty": 1013,
+            "endx": 1125,
+            "endy": 172
+        }
+    },
+    {
+        "name": "combo",
+        "coordinate": {
+            "startx": 915,
+            "starty": 1130,
+            "endx": 1131,
+            "endy": 203
+        }
+    },
+    {
+        "name": "score",
+        "coordinate": {
+            "startx": 682,
+            "starty": 1316,
+            "endx": 1129,
+            "endy": 216
+        }
+    }
+]
