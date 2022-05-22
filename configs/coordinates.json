@@ -11,18 +11,18 @@
     {
         "name": "title",
         "coordinate": {
-            "startx": 1035,
-            "starty": 345,
-            "endx": 1130,
-            "endy": 410
+            "startx": 565,
+            "starty": 418,
+            "endx": 1167,
+            "endy": 550
         }
     },
     {
         "name": "difficulty",
         "coordinate": {
-            "startx": 463,
-            "starty": 348,
-            "endx": 653,
+            "startx": 449,
+            "starty": 350,
+            "endx": 715,
             "endy": 410
         }
     },
@@ -65,10 +65,10 @@
     {
         "name": "miss",
         "coordinate": {
-            "startx": 935,
-            "starty": 1013,
-            "endx": 1125,
-            "endy": 172
+            "startx": 916,
+            "starty": 1000,
+            "endx": 1138,
+            "endy": 1083
         }
     },
     {
@@ -76,17 +76,17 @@
         "coordinate": {
             "startx": 915,
             "starty": 1130,
-            "endx": 1131,
-            "endy": 203
+            "endx": 1150,
+            "endy": 1236
         }
     },
     {
         "name": "score",
         "coordinate": {
-            "startx": 682,
-            "starty": 1316,
+            "startx": 620,
+            "starty": 1313,
             "endx": 1129,
-            "endy": 216
+            "endy": 1401
         }
     }
 ]
