@@ -3,6 +3,7 @@ package fields
 import (
 	"fmt"
 	"image"
+	"strings"
 )
 
 type Coordinate struct {
@@ -41,12 +42,35 @@ type Result struct {
 }
 
 // 正規化した文字列を返す
-func (r *Result) NormalizeText() (string, error) {
-	// TODO
-	// switch FieldTypeByName(r.Field.Name) {
-	// case condition:
-	// }
-	return r.Text, nil
+func (r *Result) NormalizedText() (string, error) {
+	var normalized string
+	fieldType, err := FieldTypeByName(r.Field.Name)
+	if err != nil {
+		return "", err
+	}
+
+	switch fieldType {
+	case FieldTypeString:
+		normalized = r.Text
+		normalized = strings.ReplaceAll(normalized, "\n", "")
+	case FieldTypeDigits:
+		// FIXME: もっと綺麗に書きたい
+		for _, n := range r.Text {
+			// 数字以外除外
+			if strings.ContainsAny(string(n), "0123456789") {
+				normalized += string(n)
+			}
+		}
+		if strings.Count(normalized, "0") == len(normalized) {
+			// 0000 => 0
+			normalized = "0"
+		} else {
+			normalized = strings.TrimLeft(normalized, "0")
+		}
+	default:
+		return "", fmt.Errorf("unknown FieldType")
+	}
+	return normalized, nil
 }
 
 type Results []*Result

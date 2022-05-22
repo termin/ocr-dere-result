@@ -6,6 +6,7 @@ import (
 	"image"
 	"image/png"
 	"io"
+	"log"
 
 	vision "cloud.google.com/go/vision/apiv1"
 )
@@ -38,5 +39,6 @@ func Request(img image.Image) (string, error) {
 	}
 
 	text, err := detectDocumentText(buf)
+	log.Println("API Requested")
 	return text, err
 }

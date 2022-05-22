@@ -2,6 +2,7 @@ package process
 
 import (
 	"encoding/json"
+	"fmt"
 	"image"
 	_ "image/jpeg"
 	_ "image/png"
@@ -61,6 +62,7 @@ func Do(fs []fields.Field, filePath string) error {
 		text, err := ocr.Request(clipped)
 		result := fields.NewResultByField(field)
 		result.Text = text
+		fmt.Printf("field: %v, text: %v\n", field.Name, text)
 		results = append(results, result)
 	}
 

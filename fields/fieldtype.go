@@ -17,17 +17,17 @@ const (
 	Combo      = FieldName("combo")
 	Score      = FieldName("score")
 
-	TypeString = FieldType("string")
-	TypeDigits = FieldType("digits")
+	FieldTypeString = FieldType("string")
+	FieldTypeDigits = FieldType("digits")
 )
 
 // TODO: stringじゃなくてもっと格好良くしたい
 func FieldTypeByName(name FieldName) (FieldType, error) {
 	switch name {
 	case Title:
-		return TypeString, nil
+		return FieldTypeString, nil
 	case Lv, Difficulty, Perfect, Great, Nice, Bad, Miss, Combo, Score:
-		return TypeDigits, nil
+		return FieldTypeDigits, nil
 	}
 
 	return "", fmt.Errorf("TODO Error Description")

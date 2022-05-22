@@ -29,15 +29,17 @@ func main() {
 		os.Exit(1)
 	}
 
+	log.Println("Coordinates")
 	for _, field := range fs {
 		fmt.Println(field)
-		fmt.Println()
 	}
+
+	fmt.Println()
 
 	for _, filePath := range args {
 		err := process.Do(fs, filePath)
 		if err != nil {
-			log.Println(err)
+			log.Println("error", err)
 		}
 	}
 }

@@ -1,7 +1,11 @@
 package imageclip
 
 import (
+	"fmt"
 	"image"
+	"image/jpeg"
+	"log"
+	"os"
 
 	"github.com/termin/ocr-dere-result/fields"
 )
@@ -15,13 +19,13 @@ func Clip(img image.Image, field fields.Field) (image.Image, error) {
 	clippedImage := img.(SubImager).SubImage(rect)
 
 	// TODO: 検証用のファイル出力
-	// output, err := os.Create("cutted.jpg")
-	// if err != nil {
-	// 	log.Println("create error:", err)
-	// 	return
-	// }
-	// defer output.Close()
-	// jpeg.Encode(output, clippedImage, &jpeg.Options{Quality: 100})
-	//
+	output, err := os.Create(fmt.Sprintf("./debug/cutted_%v.jpg", field.Name))
+	if err != nil {
+		log.Println("create error:", err)
+		return nil, err
+	}
+	defer output.Close()
+	jpeg.Encode(output, clippedImage, &jpeg.Options{Quality: 100})
+
 	return clippedImage, nil
 }
