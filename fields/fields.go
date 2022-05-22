@@ -52,7 +52,7 @@ func (r *Result) NormalizedText() (string, error) {
 	switch fieldType {
 	case FieldTypeString:
 		normalized = r.Text
-		normalized = strings.ReplaceAll(normalized, "\n", "")
+		normalized = strings.ReplaceAll(r.Text, "\n", "")
 	case FieldTypeDigits:
 		// FIXME: もっと綺麗に書きたい
 		for _, n := range r.Text {

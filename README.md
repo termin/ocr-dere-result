@@ -4,6 +4,10 @@
 
 ## Getting started
 
+* Google Cloud Vision APIを使える前提
 ```sh
-$ brew install tesseract tesseract-lang
+$ export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account_key.json
 ```
+* `configs/coordinates.json`でOCRしたい領域を指定する
+    * リポジトリに含めてあるものはiPad Pro向けに書いてある
+* run
