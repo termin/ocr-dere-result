@@ -18,7 +18,6 @@ func (c Coordinate) Rect() image.Rectangle {
 }
 
 type Field struct {
-	// TODO: FieldNameに存在しない文字列の場合はどうなる？
 	Name       FieldName  `json:"name"`
 	Coordinate Coordinate `json:"coordinate"`
 }
@@ -54,7 +53,6 @@ func (r *Result) NormalizedText() (string, error) {
 		normalized = r.Text
 		normalized = strings.ReplaceAll(r.Text, "\n", "")
 	case FieldTypeDigits:
-		// FIXME: もっと綺麗に書きたい
 		for _, n := range r.Text {
 			// 数字以外除外
 			if strings.ContainsAny(string(n), "0123456789") {

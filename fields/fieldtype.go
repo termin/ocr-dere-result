@@ -21,7 +21,6 @@ const (
 	FieldTypeDigits = FieldType("digits")
 )
 
-// TODO: stringじゃなくてもっと格好良くしたい
 func FieldTypeByName(name FieldName) (FieldType, error) {
 	switch name {
 	case Title:
@@ -30,5 +29,5 @@ func FieldTypeByName(name FieldName) (FieldType, error) {
 		return FieldTypeDigits, nil
 	}
 
-	return "", fmt.Errorf("TODO Error Description")
+	return "", fmt.Errorf("unknown FieldName")
 }

@@ -53,7 +53,6 @@ func Do(fs []fields.Field, filePath string) error {
 		clipped, err := imageclip.Clip(sourceImage, field)
 		if err != nil {
 			log.Println("failed to clip", filePath, err)
-			// TODO: 具体的にどこで起きたかを追記したい
 			return err
 		}
 
