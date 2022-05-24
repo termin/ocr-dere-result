@@ -1,9 +1,9 @@
 package export
 
 import (
+	"encoding/csv"
 	"fmt"
 	"io"
-	"strings"
 	"time"
 
 	"github.com/termin/ocr-dere-result/fields"
@@ -30,29 +30,33 @@ func (e *CSVExporter) Export(results fields.Results) error {
 
 	// 曲名, 日付, ALBUM, Lv, 全ノーツ数, PERFECT, GREAT, NICE, BAD, MISS, NICE以下, COMBO
 	var texts []string
-	texts = append(texts, mapped[fields.Title])
-	texts = append(texts, dateString())
-	texts = append(texts, "") // ALBUM
-	texts = append(texts, mapped[fields.Lv])
-	texts = append(texts, "") // ノーツ数
-	texts = append(
-		texts,
+
+	// TODO: 順序制御を切り離してまともにする
+	texts = []string{
+		mapped[fields.Title],
+		dateString(),
+		"", // ALBUM
+		mapped[fields.Lv],
+		"", // ノーツ数
 		mapped[fields.Perfect],
 		mapped[fields.Great],
 		mapped[fields.Nice],
 		mapped[fields.Bad],
 		mapped[fields.Miss],
-	)
-	texts = append(texts, "") // NICE以下
-	texts = append(texts, mapped[fields.Combo])
-	csvString := strings.Join(texts, "\t")
-	csvString += "\n"
+		"", // NICE以下
+		mapped[fields.Combo],
+	}
 
-	// TODO: 順序制御を切り離してまともにする
-	// TODO: 真面目にCSV文字列を作る
+	w := csv.NewWriter(e.w)
+	w.Comma = '\t'
 
-	_, err := e.w.Write([]byte(csvString))
+	err := w.Write(texts)
 	if err != nil {
+		return err
+	}
+
+	w.Flush()
+	if w.Error() != nil {
 		return err
 	}
 
