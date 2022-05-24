@@ -48,7 +48,8 @@ func Do(fs []fields.Field, filePath string) error {
 		return err
 	}
 
-	var results fields.Results
+	result := &fields.Result{SourceImageFile: sourceImageFile}
+
 	for _, field := range fs {
 		clipped, err := imageclip.Clip(sourceImage, field)
 		if err != nil {
@@ -57,14 +58,15 @@ func Do(fs []fields.Field, filePath string) error {
 		}
 
 		text, err := ocr.Request(clipped)
-		result := fields.NewResultByField(field)
-		result.Text = text
+		resultField := fields.NewResultFieldByField(field)
+		resultField.Text = text
 		fmt.Printf("field: %v, text: %v\n", field.Name, text)
-		results = append(results, result)
+
+		result.AddResultField(resultField)
 	}
 
 	csvExport := export.NewCSVExporter(os.Stdout)
-	csvExport.Export(results)
+	csvExport.Export(result)
 
 	return nil
 }

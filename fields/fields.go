@@ -3,7 +3,12 @@ package fields
 import (
 	"fmt"
 	"image"
+	"log"
+	"os"
 	"strings"
+	"time"
+
+	"github.com/rwcarlsen/goexif/exif"
 )
 
 type Coordinate struct {
@@ -35,13 +40,13 @@ func (f Field) String() string {
 	)
 }
 
-type Result struct {
+type ResultField struct {
 	*Field
 	Text string
 }
 
 // 正規化した文字列を返す
-func (r *Result) NormalizedText() (string, error) {
+func (r *ResultField) NormalizedText() (string, error) {
 	var normalized string
 	fieldType, err := FieldTypeByName(r.Field.Name)
 	if err != nil {
@@ -71,16 +76,63 @@ func (r *Result) NormalizedText() (string, error) {
 	return normalized, nil
 }
 
-type Results []*Result
-
-func NewResultByField(field Field) *Result {
-	result := &Result{
+func NewResultFieldByField(field Field) *ResultField {
+	result := &ResultField{
 		Field: &field,
 	}
 	return result
 }
 
+type Result struct {
+	SourceImageFile *os.File
+	Fields          []*ResultField
+}
+
+func (r *Result) AddResultField(field *ResultField) {
+	r.Fields = append(r.Fields, field)
+}
+
 // TODO
-func (r *Results) IsSuccessed() bool {
+func (r *Result) IsSuccessful() bool {
 	return true
+}
+
+// 日付を返す. Exif, FileInfo.ModTimeの順にフォールバック
+func (r *Result) DateTime() (time.Time, error) {
+	t, err := r.DateTimeFromExif()
+	if err == nil {
+		return t, nil
+	}
+
+	t, err = r.DateTimeFromFileInfo()
+	if err == nil {
+		return t, nil
+	}
+
+	return time.Time{}, err
+}
+
+func (r *Result) DateTimeFromFileInfo() (time.Time, error) {
+	info, err := r.SourceImageFile.Stat()
+	if err != nil {
+		return time.Time{}, err
+	}
+
+	return info.ModTime(), nil
+}
+
+func (r *Result) DateTimeFromExif() (time.Time, error) {
+	e, err := exif.Decode(r.SourceImageFile)
+	if err != nil {
+		log.Println("failed to decode")
+		return time.Time{}, err
+	}
+
+	origTime, err := e.DateTime()
+	if err != nil {
+		log.Println("failed to get DateTimeOriginal")
+		return time.Time{}, err
+	}
+
+	return origTime, nil
 }

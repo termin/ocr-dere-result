@@ -2,13 +2,22 @@ package export
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/termin/ocr-dere-result/fields"
 )
 
-func fixture() fields.Results {
-	var results fields.Results
+func fixture() (*fields.Result, error) {
+	p, _ := os.Getwd()
+	sourceImageFilepath := filepath.Join(p, "../examples/demolish.png")
+	f, err := os.Open(sourceImageFilepath)
+	if err != nil {
+		return nil, err
+	}
+
+	result := &fields.Result{SourceImageFile: f}
 	source := map[fields.FieldName]string{
 		fields.Lv:         "31",
 		fields.Title:      "title",
@@ -27,21 +36,25 @@ func fixture() fields.Results {
 			Name:       name,
 			Coordinate: fields.Coordinate{StartX: 0, StartY: 0, EndX: 0, EndY: 0},
 		}
-		r := &fields.Result{Field: f, Text: text}
-		results = append(results, r)
+		r := &fields.ResultField{Field: f, Text: text}
+		result.AddResultField(r)
 	}
 
-	return results
+	return result, nil
 }
 
 func TestExport(t *testing.T) {
-	results := fixture()
+	result, err := fixture()
+	if err != nil {
+		t.FailNow()
+	}
+
 	buf := new(bytes.Buffer)
 	e := NewCSVExporter(buf)
-	err := e.Export(results)
+	err = e.Export(result)
 
 	t.Log(buf.String())
-	t.Log(results)
+	t.Log(result)
 
 	if err != nil {
 		t.Error(err)

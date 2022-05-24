@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
+	"log"
 	"time"
 
 	"github.com/termin/ocr-dere-result/fields"
@@ -17,13 +18,13 @@ func NewCSVExporter(w io.Writer) *CSVExporter {
 	return &CSVExporter{w: w}
 }
 
-func (e *CSVExporter) Export(results fields.Results) error {
-	if !results.IsSuccessed() {
+func (e *CSVExporter) Export(result *fields.Result) error {
+	if !result.IsSuccessful() {
 		return fmt.Errorf("results is incomplete")
 	}
 
 	mapped := make(map[fields.FieldName]string)
-	for _, result := range results {
+	for _, result := range result.Fields {
 		text, _ := result.NormalizedText()
 		mapped[result.Name] = text
 	}
@@ -31,10 +32,16 @@ func (e *CSVExporter) Export(results fields.Results) error {
 	// 曲名, 日付, ALBUM, Lv, 全ノーツ数, PERFECT, GREAT, NICE, BAD, MISS, NICE以下, COMBO
 	var texts []string
 
+	origDateTime, err := result.DateTime()
+	if err != nil {
+		log.Println(err)
+		origDateTime = time.Now()
+	}
+
 	// TODO: 順序制御を切り離してまともにする
 	texts = []string{
 		mapped[fields.Title],
-		dateString(),
+		dateFormat(origDateTime),
 		"", // ALBUM
 		mapped[fields.Lv],
 		"", // ノーツ数
@@ -50,7 +57,7 @@ func (e *CSVExporter) Export(results fields.Results) error {
 	w := csv.NewWriter(e.w)
 	w.Comma = '\t'
 
-	err := w.Write(texts)
+	err = w.Write(texts)
 	if err != nil {
 		return err
 	}
@@ -63,8 +70,7 @@ func (e *CSVExporter) Export(results fields.Results) error {
 	return nil
 }
 
-func dateString() string {
-	day := time.Now()
+func dateFormat(date time.Time) string {
 	const layout = "2006/01/02"
-	return day.Format(layout)
+	return date.Format(layout)
 }
