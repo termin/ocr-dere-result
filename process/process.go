@@ -30,8 +30,6 @@ func LoadFields(configFilepath string) ([]fields.Field, error) {
 		return nil, err
 	}
 
-	// TODO: 設定が正しいか確認
-
 	return fs, nil
 }
 

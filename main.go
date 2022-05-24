@@ -14,7 +14,6 @@ func main() {
 	flag.Parse()
 	args := flag.Args()
 	fmt.Println(args)
-	// TODO: オプションの追加
 
 	if len(args) == 0 {
 		fmt.Fprintf(os.Stderr, "requires at least 1 argument\n")
