@@ -10,6 +10,8 @@ import (
 )
 
 func TestReuqest(t *testing.T) {
+	t.SkipNow()
+
 	p, _ := os.Getwd()
 	imageFilepath := filepath.Join(p, "../examples/demolish_cutted_title.jpg")
 	f, err := os.Open(imageFilepath)

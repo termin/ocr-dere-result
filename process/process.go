@@ -66,8 +66,8 @@ func Do(fs []fields.Field, filePath string) error {
 		results = append(results, result)
 	}
 
-	csvExport := export.NewCSVExporter(results, os.Stdout)
-	csvExport.Export()
+	csvExport := export.NewCSVExporter(os.Stdout)
+	csvExport.Export(results)
 
 	return nil
 }

@@ -10,21 +10,20 @@ import (
 )
 
 type CSVExporter struct {
-	results fields.Results
-	w       io.Writer
+	w io.Writer
 }
 
-func NewCSVExporter(r fields.Results, w io.Writer) *CSVExporter {
-	return &CSVExporter{results: r, w: w}
+func NewCSVExporter(w io.Writer) *CSVExporter {
+	return &CSVExporter{w: w}
 }
 
-func (e *CSVExporter) Export() error {
-	if !e.results.IsSuccessed() {
+func (e *CSVExporter) Export(results fields.Results) error {
+	if !results.IsSuccessed() {
 		return fmt.Errorf("results is incomplete")
 	}
 
 	mapped := make(map[fields.FieldName]string)
-	for _, result := range e.results {
+	for _, result := range results {
 		text, _ := result.NormalizedText()
 		mapped[result.Name] = text
 	}
