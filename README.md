@@ -12,4 +12,9 @@ $ export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account_key.json
 * `configs/coordinates.json`でOCRしたい領域を指定する
     * リポジトリに含めてあるものはiPad Pro向けに書いてある
 * run
-    * `app /path/to/result1.png /path/to/result2.png`
+    * `$ app /path/to/result1.png /path/to/result2.png`
+
+デバッグ情報を出力したいとき
+```sh
+$ app --verbose /path/to/result1.png /path/to/result2.png
+```

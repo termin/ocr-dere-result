@@ -3,12 +3,12 @@ package fields
 import (
 	"fmt"
 	"image"
-	"log"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/rwcarlsen/goexif/exif"
+	"go.uber.org/zap"
 )
 
 type Coordinate struct {
@@ -124,13 +124,13 @@ func (r *Result) DateTimeFromFileInfo() (time.Time, error) {
 func (r *Result) DateTimeFromExif() (time.Time, error) {
 	e, err := exif.Decode(r.SourceImageFile)
 	if err != nil {
-		log.Println("failed to decode")
+		zap.S().Debug("failed to decode")
 		return time.Time{}, err
 	}
 
 	origTime, err := e.DateTime()
 	if err != nil {
-		log.Println("failed to get DateTimeOriginal")
+		zap.S().Debug("failed to get DateTimeOriginal")
 		return time.Time{}, err
 	}
 

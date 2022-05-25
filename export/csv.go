@@ -4,10 +4,10 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
-	"log"
 	"time"
 
 	"github.com/termin/ocr-dere-result/fields"
+	"go.uber.org/zap"
 )
 
 type CSVExporter struct {
@@ -34,7 +34,7 @@ func (e *CSVExporter) Export(result *fields.Result) error {
 
 	origDateTime, err := result.DateTime()
 	if err != nil {
-		log.Println(err)
+		zap.S().Debug(err)
 		origDateTime = time.Now()
 	}
 

@@ -6,9 +6,9 @@ import (
 	"image"
 	"image/png"
 	"io"
-	"log"
 
 	vision "cloud.google.com/go/vision/apiv1"
+	"go.uber.org/zap"
 )
 
 func detectDocumentText(f io.Reader) (string, error) {
@@ -39,6 +39,6 @@ func Request(img image.Image) (string, error) {
 	}
 
 	text, err := detectDocumentText(buf)
-	log.Println("API Requested")
+	zap.S().Debug("API Requested")
 	return text, err
 }
